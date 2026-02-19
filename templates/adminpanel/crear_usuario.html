@@ -1,0 +1,69 @@
+{% extends "adminpanel/base_admin.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h1 class="form-title">👤 Crear Nuevo Usuario</h1>
+    <p class="form-subtitle">Registra un nuevo usuario en el sistema</p>
+
+    <div class="card">
+        <form action="{% url 'adminpanel:crear_usuario_post' %}" method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label class="required-field">Nombres</label>
+                <input type="text" name="nombres" placeholder="Ej: Juan Carlos" required>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">Apellidos</label>
+                <input type="text" name="apellidos" placeholder="Ej: Pérez Gómez" required>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">Teléfono</label>
+                <input type="tel" name="telefono" placeholder="10 dígitos" required>
+                <p class="form-help">Sólo números, sin espacios</p>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">Nombre de Usuario</label>
+                <input type="text" name="username" placeholder="Ej: admin01, cliente_123" required>
+                <p class="form-help">Identificador único para iniciar sesión</p>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">Correo Electrónico</label>
+                <input type="email" name="email" placeholder="usuario@example.com" required>
+                <p class="form-help">Email válido para notificaciones</p>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">Contraseña</label>
+                <input type="password" name="password" placeholder="Mínimo 6 caracteres" required>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">Confirmar Contraseña</label>
+                <input type="password" name="password_confirm" placeholder="Repite la contraseña" required>
+                <p class="form-help">Debe coincidir con la contraseña</p>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">Rol del Usuario</label>
+                <select name="id_rol" required>
+                    <option value="">-- Selecciona un rol --</option>
+                    <option value="1">🔑 Administrador</option>
+                    <option value="2">🛍️ Cliente</option>
+                </select>
+                <p class="form-help">Define los permisos del usuario</p>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn-primary" type="submit">✓ Crear Usuario</button>
+                <a href="{% url 'adminpanel:usuarios' %}" class="btn-secondary">✕ Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

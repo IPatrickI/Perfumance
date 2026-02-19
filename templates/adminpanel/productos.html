@@ -1,0 +1,39 @@
+{% extends "adminpanel/base_admin.html" %}
+
+{% block content %}
+<h1>Productos</h1>
+
+<a href="{% url 'adminpanel:crear_perfume' %}" class="btn">➕ Nuevo Perfume</a>
+
+<div class="card">
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>Marca</th>
+            <th>Presentación</th>
+            <th>Talla</th>
+            <th>Stock</th>
+            <th>Género</th>
+            <th>Acciones</th>
+        </tr>
+
+        {% for p in perfumes %}
+        <tr>
+            <td>{{ p.id_perfume }}</td>
+            <td>{{ p.marca }}</td>
+            <td>{{ p.presentacion }}</td>
+            <td>{{ p.talla }}</td>
+            <td>{{ p.stock }}</td>
+            <td>{{ p.genero }}</td>
+            <td>
+                <a class="btn yellow" href="{% url 'adminpanel:editar_perfume' p.id_perfume %}">Editar</a>
+                <a class="btn red" href="{% url 'adminpanel:eliminar_perfume' p.id_perfume %}">
+                    Eliminar
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+</div>
+{% endblock %}

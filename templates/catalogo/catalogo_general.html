@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Catálogo de Perfumes - DG Perfumance{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'catalogo/catalogo.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="catalogo-container">
+    <h1 class="titulo-catalogo">Catálogo de Perfumes</h1>
+    <p class="subtitulo-catalogo">Descubre nuestras fragancias exclusivas</p>
+
+    <!-- Grid de productos -->
+    <div class="catalogo-grid">
+        {% for perfume in perfumes %}
+        <div class="producto-card">
+            <div class="producto-imagen-container">
+                <img src="{{ perfume.imagen }}" alt="{{ perfume.marca }}" class="producto-imagen" onerror="this.src='/static/img/perfume_default.jpg'">
+                <span class="producto-genero">{{ perfume.genero }}</span>
+                {% if perfume.stock == 0 %}
+                <span class="sin-stock">Agotado</span>
+                {% endif %}
+            </div>
+            
+            <div class="producto-info">
+                <h3 class="producto-marca">{{ perfume.marca }}</h3>
+                <p class="producto-presentacion">{{ perfume.presentacion }} - {{ perfume.talla }}</p>
+                <p class="producto-stock">
+                    {% if perfume.stock > 0 %}
+                        <span class="stock-disponible">Stock: {{ perfume.stock }}</span>
+                    {% else %}
+                        <span class="stock-agotado">Sin stock</span>
+                    {% endif %}
+                </p>
+                <p class="producto-precio">${{ perfume.precio }}</p>
+            </div>
+
+            <a href="{% url 'catalogo:detalle_perfume' perfume.id %}" class="btn-detalle">Ver Detalles</a>
+        </div>
+        {% empty %}
+        <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+            <p>No hay productos disponibles en el catálogo.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

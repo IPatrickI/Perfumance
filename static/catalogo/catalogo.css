@@ -1,0 +1,189 @@
+/* Catálogo General de Productos */
+
+.catalogo-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.titulo-catalogo {
+    text-align: left;
+    color: #8B4789;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.subtitulo-catalogo {
+    text-align: left;
+    color: #666;
+    font-size: 1.1em;
+    margin-bottom: 40px;
+}
+
+/* Grid de productos */
+.catalogo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+/* Card del producto */
+.producto-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.producto-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(139, 71, 137, 0.2);
+}
+
+/* Imagen del producto */
+.producto-imagen-container {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    background: #f5f5f5;
+}
+
+.producto-imagen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.producto-card:hover .producto-imagen {
+    transform: scale(1.05);
+}
+
+/* Badge de género */
+.producto-genero {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #8B4789;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+/* Sin stock */
+.sin-stock {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* Información del producto */
+.producto-info {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.producto-marca {
+    color: #8B4789;
+    font-size: 1.3em;
+    margin: 0;
+    font-weight: bold;
+}
+
+.producto-presentacion {
+    color: #666;
+    font-size: 0.9em;
+    margin: 0;
+}
+
+.producto-stock {
+    margin: 0;
+    font-size: 0.95em;
+}
+
+.stock-disponible {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.stock-agotado {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.producto-precio {
+    color: #8B4789;
+    font-size: 1.8em;
+    font-weight: bold;
+    margin: 10px 0 0 0;
+}
+
+/* Botón detalle */
+.btn-detalle {
+    background: linear-gradient(135deg, #8B4789 0%, #A85CA8 100%);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-weight: bold;
+    margin-top: auto;
+}
+
+.btn-detalle:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(139, 71, 137, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .catalogo-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .titulo-catalogo {
+        font-size: 1.8em;
+    }
+
+    .producto-imagen-container {
+        height: 220px;
+    }
+}
+
+@media (max-width: 480px) {
+    .catalogo-container {
+        padding: 20px 10px;
+    }
+
+    .catalogo-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .titulo-catalogo {
+        font-size: 1.5em;
+    }
+}

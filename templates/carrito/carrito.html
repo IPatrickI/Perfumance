@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h1>🛒 Mi carrito</h1>
+
+<div id="lista-carrito"></div>
+
+<script src="{% static 'carrito/carrito.js' %}"></script>
+{% endblock %}

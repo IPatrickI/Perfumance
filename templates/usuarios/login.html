@@ -1,0 +1,22 @@
+{% extends "usuarios/base_auth.html" %}
+
+{% block titulo %}Iniciar Sesión{% endblock %}
+{% block encabezado %}Iniciar Sesión{% endblock %}
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <label>Usuario</label>
+    <input type="text" name="username" required>
+
+    <label>Contraseña</label>
+    <input type="password" name="password" required>
+
+    <button type="submit" class="btn">Ingresar</button>
+
+    <div class="opciones">
+        <a href="{% url 'registro' %}">Crear cuenta</a> |
+        <a href="{% url 'recuperar' %}">¿Olvidaste tu contraseña?</a>
+    </div>
+</form>
+{% endblock %}

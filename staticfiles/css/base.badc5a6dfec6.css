@@ -1,0 +1,244 @@
+/* Base Styles - Navbar, Footer, General Layout */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* NAVBAR */
+.navbar {
+    background: linear-gradient(135deg, #8B4789 0%, #A85CA8 100%);
+    color: white;
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo a {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.logo a:hover {
+    opacity: 0.8;
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+    list-style: none;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    transition: opacity 0.3s;
+    font-size: 0.95em;
+}
+
+.nav-links a:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+/* MAIN CONTENT */
+.main-content {
+    flex: 1;
+    max-width: 100%;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* FOOTER */
+.footer {
+    background: #1a1a1a;
+    color: #e0e0e0;
+    padding: 50px 20px 20px;
+    margin-top: 50px;
+    border-top: 3px solid #8B4789;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    margin-bottom: 30px;
+}
+
+.footer-section {
+    padding: 20px;
+}
+
+.footer-section h3 {
+    color: #8B4789;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-section h3 i {
+    color: #A85CA8;
+}
+
+.footer-section p {
+    margin: 8px 0;
+    line-height: 1.6;
+    color: #bbb;
+}
+
+.footer-section a {
+    color: #A85CA8;
+    text-decoration: none;
+    transition: color 0.3s;
+    display: inline-block;
+    margin: 8px 0;
+}
+
+.footer-section a:hover {
+    color: #8B4789;
+    text-decoration: underline;
+}
+
+/* Redes Sociales */
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.social-links a {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #8B4789 0%, #A85CA8 100%);
+    color: white;
+    border-radius: 50%;
+    transition: transform 0.3s, box-shadow 0.3s;
+    font-size: 1.2em;
+    margin: 0 !important;
+}
+
+.social-links a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(139, 71, 137, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+/* Horario */
+.horario-list {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.horario-list li {
+    padding: 5px 0;
+    color: #bbb;
+    border-bottom: 1px solid #333;
+}
+
+.horario-list li:last-child {
+    border-bottom: none;
+}
+
+.horario-list strong {
+    color: #A85CA8;
+}
+
+/* Info Cards */
+.info-card {
+    background: #2a2a2a;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    border-left: 3px solid #8B4789;
+}
+
+.info-card p {
+    margin: 5px 0;
+}
+
+.info-card strong {
+    color: #A85CA8;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #333;
+    color: #888;
+    font-size: 0.9em;
+}
+
+.footer-bottom p {
+    margin: 5px 0;
+}
+
+/* Links útiles */
+.footer-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.footer-links a {
+    padding: 8px;
+    background: #2a2a2a;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 0.9em;
+    transition: background 0.3s;
+}
+
+.footer-links a:hover {
+    background: #8B4789;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-links {
+        gap: 15px;
+        font-size: 0.85em;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .social-links {
+        justify-content: center;
+    }
+}

@@ -1,0 +1,79 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f3f3;
+}
+
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    background: #111;
+    color: white;
+    padding: 20px;
+    position: fixed;
+    top: 0; left: 0;
+}
+
+.sidebar h2 {
+    font-size: 22px;
+    margin-bottom: 25px;
+}
+
+.sidebar a {
+    display: block;
+    text-decoration: none;
+    color: #ddd;
+    padding: 12px;
+    background: #222;
+    margin-bottom: 10px;
+    border-radius: 6px;
+}
+
+.sidebar a:hover {
+    background: #444;
+}
+
+.content {
+    margin-left: 250px;
+    padding: 30px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.btn {
+    background: #0055ff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn.red {
+    background: crimson;
+}
+
+.btn.yellow {
+    background: #ffae00;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.table th, .table td {
+    border-bottom: 1px solid #ddd;
+    padding: 12px;
+}
+
+.table th {
+    background: #eee;
+}

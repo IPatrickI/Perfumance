@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'adminpanel/admin.css' %}">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>ADMIN</h2>
+    <a href="{% url 'adminpanel:dashboard' %}">Dashboard</a>
+    <a href="{% url 'adminpanel:productos' %}">Productos</a>
+    <a href="{% url 'adminpanel:usuarios' %}">Usuarios</a>
+    <a href="{% url 'adminpanel:pedidos' %}">Pedidos</a>
+    <a href="/logout/">Cerrar sesión</a>
+</div>
+
+<div class="content">
+    {% block content %}
+    {% endblock %}
+</div>
+
+</body>
+</html>

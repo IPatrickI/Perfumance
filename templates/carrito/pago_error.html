@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 60px auto; text-align: center; padding: 40px;">
+    <div style="font-size: 80px; margin-bottom: 20px;">❌</div>
+    
+    <h1 style="color: #F44336; margin-bottom: 10px;">Pago Rechazado</h1>
+    <p style="color: #666; font-size: 1.1em; margin-bottom: 30px;">Hubo un problema al procesar tu pago</p>
+    
+    {% if error %}
+    <div style="background: #ffebee; padding: 15px; border-radius: 8px; margin-bottom: 30px; color: #c62828;">
+        <strong>Motivo:</strong> {{ error }}
+    </div>
+    {% endif %}
+    
+    <p style="color: #666; margin-bottom: 20px;">
+        🔄 Por favor intenta de nuevo con otro método de pago o verifica tus datos
+    </p>
+    
+    <div style="display: flex; gap: 10px; justify-content: center;">
+        <a href="/carrito/checkout/" style="padding: 12px 30px; background: #8B4789; color: white; border-radius: 6px; text-decoration: none; font-weight: bold;">
+            Intentar nuevamente
+        </a>
+        <a href="/carrito/ver/" style="padding: 12px 30px; background: #f0f0f0; color: #333; border-radius: 6px; text-decoration: none; font-weight: bold;">
+            Ver carrito
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,80 @@
+body {
+    background: linear-gradient(120deg, #0d0d0d, #3f0f5f);
+    font-family: Arial, sans-serif;
+    color: #fff;
+    margin: 0;
+}
+
+.auth-container {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-box {
+    background: rgba(255, 255, 255, 0.07);
+    padding: 40px;
+    width: 360px;
+    border-radius: 12px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 0 15px rgba(0,0,0,.5);
+}
+
+.titulo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    border-radius: 6px;
+    color: white;
+}
+
+input::placeholder {
+    color: #ddd;
+}
+
+.btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    background: #7a03fc;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #5c02c1;
+}
+
+.opciones {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.opciones a {
+    color: #ddd;
+    text-decoration: none;
+}
+
+.mensajes .msg {
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.msg.error { background: #ff4d4d; }
+.msg.success { background: #4dff88; color: black; }

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>🧾 Detalle de compra #{{ id_venta }}</h1>
+
+<div id="detalle"></div>
+
+<script>
+fetch("/ventas/{{ id_venta }}/")
+    .then(r=>r.json())
+    .then(data=>{
+        let box = document.getElementById("detalle");
+        box.innerHTML = data.map(d=>`
+            <div class="card">
+                <strong>${d.marca}</strong><br>
+                Cantidad: ${d.cantidad}<br>
+                Precio: $${d.precio_unitario}<br>
+                Subtotal: $${d.subtotal}
+            </div>
+        `).join("");
+    });
+</script>
+{% endblock %}

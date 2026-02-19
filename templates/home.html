@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Inicio - Perfúmance{% endblock %}
+
+{% block content %}
+
+<!-- ============================= -->
+<!-- HERO PRINCIPAL SIMPLE -->
+<!-- ============================= -->
+<section class="hero-section">
+    <div class="hero-overlay"></div>
+</section>
+
+<!-- ============================= -->
+<!-- RECOMENDACIONES -->
+<!-- ============================= -->
+<section class="seccion recomendaciones">
+    <h2 class="seccion-titulo">✨ Recomendaciones para Ti</h2>
+    
+    <!-- Notificación de éxito -->
+    <div id="notificacion-carrito" style="display: none; position: fixed; top: 80px; right: 20px; background: #4CAF50; color: white; padding: 15px 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1000; font-weight: 500;">
+        ✓ Agregado exitosamente al carrito
+    </div>
+    
+    {% if productos %}
+    <div class="productos-grid">
+        {% for producto in productos %}
+        <div class="producto-card">
+            <div class="producto-imagen">
+                <img src="{{ producto.imagen_url }}" alt="{{ producto.marca }}" onerror="this.src='/static/img/perfume_default.jpg'">
+            </div>
+            <div class="producto-info">
+                <h3 class="producto-marca">{{ producto.marca }}</h3>
+                <p class="producto-detalles">{{ producto.presentacion }} - {{ producto.talla }}</p>
+                <p class="producto-precio">${{ producto.precio }}</p>
+                
+                <!-- Selector de cantidad -->
+                <div class="cantidad-selector" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0;">
+                    <button onclick="cambiarCantidad({{ producto.id }}, -1)" style="width: 35px; height: 35px; border-radius: 50%; border: 2px solid #8B4789; background: white; color: #8B4789; font-size: 1.2em; cursor: pointer; font-weight: bold;">−</button>
+                    <input type="number" id="cantidad-{{ producto.id }}" value="1" min="1" max="99" style="width: 60px; text-align: center; padding: 8px; border: 2px solid #ddd; border-radius: 6px; font-size: 1em;" readonly>
+                    <button onclick="cambiarCantidad({{ producto.id }}, 1)" style="width: 35px; height: 35px; border-radius: 50%; border: 2px solid #8B4789; background: white; color: #8B4789; font-size: 1.2em; cursor: pointer; font-weight: bold;">+</button>
+                </div>
+                
+                <div class="producto-acciones">
+                    <a href="{% url 'catalogo:detalle_perfume' producto.id %}" class="btn-detalles">
+                        Ver Detalles
+                    </a>
+                    <button class="btn-carrito" onclick="agregarAlCarritoDesdeHome({{ producto.id }})">
+                        🛒 Agregar
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p style="text-align: center; color: #999;">No hay productos disponibles en este momento.</p>
+    {% endif %}
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function cambiarCantidad(idPerfume, cambio) {
+    const input = document.getElementById(`cantidad-${idPerfume}`);
+    let valorActual = parseInt(input.value);
+    let nuevoValor = valorActual + cambio;
+    
+    if (nuevoValor >= 1 && nuevoValor <= 99) {
+        input.value = nuevoValor;
+    }
+}
+
+function agregarAlCarritoDesdeHome(idPerfume) {
+    const input = document.getElementById(`cantidad-${idPerfume}`);
+    const cantidad = parseInt(input.value);
+    
+    agregarAlCarritoDirecto(idPerfume, cantidad);
+}
+
+async function agregarAlCarritoDirecto(idPerfume, cantidad) {
+    if (cantidad <= 0) {
+        mostrarNotificacion('Cantidad inválida', false);
+        return;
+    }
+
+    try {
+        const response = await fetch('/carrito/api/agregar/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({
+                id_perfume: idPerfume,
+                cantidad: cantidad
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            mostrarNotificacion('Agregado exitosamente al carrito', true);
+            actualizarContadorCarrito();
+        } else {
+            mostrarNotificacion(`Error: ${data.error || 'No se pudo agregar al carrito'}`, false);
+        }
+    } catch (error) {
+        mostrarNotificacion('Error de conexión', false);
+        console.error('Error:', error);
+    }
+}
+
+function mostrarNotificacion(mensaje, exito) {
+    const notificacion = document.getElementById('notificacion-carrito');
+    notificacion.textContent = exito ? '✓ ' + mensaje : '✗ ' + mensaje;
+    notificacion.style.background = exito ? '#4CAF50' : '#f44336';
+    notificacion.style.display = 'block';
+    
+    setTimeout(() => {
+        notificacion.style.display = 'none';
+    }, 3000);
+}
+
+function actualizarContadorCarrito() {
+    fetch('/carrito/api/ver/')
+        .then(r => r.json())
+        .then(data => {
+            const contador = document.getElementById('carrito-contador');
+            if (contador) {
+                contador.textContent = data.carrito.length;
+            }
+        })
+        .catch(e => console.log('No se pudo actualizar contador'));
+}
+</script>
+{% endblock %}

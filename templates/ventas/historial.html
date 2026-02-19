@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block titulo %}Mis Compras{% endblock %}
+{% block content %}
+
+<h2 class="titulo">Historial de Compras</h2>
+
+<div id="lista-ventas" class="ventas-container">
+    <p>Cargando compras...</p>
+</div>
+
+<script>
+fetch("{% url 'ventas_historial' %}")
+    .then(r => r.json())
+    .then(data => {
+        let cont = document.getElementById("lista-ventas");
+
+        if (data.error) {
+            cont.innerHTML = "<p>No tienes compras registradas.</p>";
+            return;
+        }
+
+        if (data.length === 0) {
+            cont.innerHTML = "<p>Aún no tienes compras realizadas.</p>";
+            return;
+        }
+
+        cont.innerHTML = "";
+
+        data.forEach(v => {
+            cont.innerHTML += `
+                <div class="venta-card">
+                    <h3>Venta #${v.id_venta}</h3>
+                    <p><strong>Fecha:</strong> ${v.fecha_venta}</p>
+                    <p><strong>Total:</strong> $${v.monto_total.toFixed(2)}</p>
+                    <p><strong>Estado Pago:</strong> ${v.estado || "Sin pagar"}</p>
+                    <p><strong>Método:</strong> ${v.metodo_pago || "—"}</p>
+
+                    <a class="btn" href="/ventas/${v.id_venta}/">Ver Detalle</a>
+                </div>
+            `;
+        });
+    });
+</script>
+
+{% endblock %}

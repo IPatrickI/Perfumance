@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Perfumería DG Perfumance{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <!-- Font Awesome para iconos de redes sociales -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+<!-- ========================================================= -->
+<!-- NAVBAR -->
+<!-- ========================================================= -->
+<header class="navbar">
+    <div class="nav-container">
+        <div class="logo">
+            <a href="/">🌸 DG Perfumance</a>
+        </div>
+
+        <!-- Botón Hamburguesa para Mobile -->
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menú">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav class="nav-links" id="navMenu">
+            <a href="/">Inicio</a>
+            <a href="/home/quienes-somos/">Quiénes Somos</a>
+            <a href="/catalogo/">Catálogo</a>
+            <a href="/carrito/ver/">Carrito</a>
+            <a href="/ubicacion/mapa/">Ubicaciones</a>
+
+            {% if request.session.usuario %}
+                <a href="/usuarios/perfil/">Perfil</a>
+                <a href="/logout/">Salir</a>
+            {% else %}
+                <a href="/login/">Iniciar Sesión</a>
+            {% endif %}
+        </nav>
+    </div>
+</header>
+
+<!-- Script para toggle del menú móvil -->
+<script>
+function toggleMenu() {
+    const navMenu = document.getElementById('navMenu');
+    const menuToggle = document.querySelector('.menu-toggle');
+    navMenu.classList.toggle('active');
+    menuToggle.classList.toggle('active');
+}
+
+// Cerrar menú al hacer clic en un link (móvil)
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+            const navMenu = document.getElementById('navMenu');
+            const menuToggle = document.querySelector('.menu-toggle');
+            navMenu.classList.remove('active');
+            menuToggle.classList.remove('active');
+        }
+    });
+});
+</script>
+
+<!-- ESPACIO PARA EL CONTENIDO -->
+<main class="main-content">
+    {% block content %}
+    {% endblock %}
+</main>
+
+<!-- ========================================================= -->
+<!-- FOOTER PROFESIONAL -->
+<!-- ========================================================= -->
+<footer class="footer">
+    <div class="footer-container">
+
+        <!-- Sección: Información de la Empresa -->
+        <div class="footer-section">
+            <h3><i class="fas fa-store"></i> DG Perfumance</h3>
+            <p>Tu perfumería en línea de confianza. Fragancias originales, marcas premium, y la mejor atención al cliente.</p>
+            
+            <div class="info-card">
+                <p><strong>📞 Teléfono:</strong> <a href="tel:+525652206277">+52 56 5220 6277</a></p>
+                <p><strong>📧 Email:</strong> <a href="mailto:l221080533@iztapalapa.tecnm.mx">l221080533@iztapalapa.tecnm.mx</a></p>
+                <p><strong>💬 Soporte:</strong> <a href="https://wa.me/525652206277" target="_blank">WhatsApp</a></p>
+            </div>
+        </div>
+
+        <!-- Sección: Horario -->
+        <div class="footer-section">
+            <h3><i class="fas fa-clock"></i> Horario de Atención</h3>
+            <ul class="horario-list">
+                <li><strong>Lunes - Viernes:</strong> 9:00 AM - 9:00 PM</li>
+                <li><strong>Sábado:</strong> 10:00 AM - 8:00 PM</li>
+                <li><strong>Domingo:</strong> 11:00 AM - 6:00 PM</li>
+                <li><strong>Días Festivos:</strong> 12:00 PM - 6:00 PM</li>
+            </ul>
+        </div>
+
+        <!-- Sección: Enlaces Útiles -->
+        <div class="footer-section">
+            <h3><i class="fas fa-link"></i> Enlaces Útiles</h3>
+            <div class="footer-links">
+                <a href="/home/quienes-somos/">Quiénes Somos</a>
+                <a href="/catalogo/">Catálogo</a>
+                <a href="/ubicacion/mapa/">Sucursales</a>
+                <a href="/usuarios/perfil/">Mi Cuenta</a>
+                <a href="/carrito/historial/">Mis Compras</a>
+                <a href="/login/">Iniciar Sesión</a>
+            </div>
+        </div>
+
+        <!-- Sección: Redes Sociales -->
+        <div class="footer-section">
+            <h3><i class="fas fa-share-alt"></i> Síguenos</h3>
+            <p>Conecta con nosotros en redes sociales:</p>
+            
+            <div class="social-links">
+                <a href="https://www.facebook.com/share/17inQG8DRS/?mibextid=wwXIfr" target="_blank" title="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://www.instagram.com/dg_perfumance_?igsh=NmY2NjRyNDIxeHIw" target="_blank" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+
+            <p style="margin-top: 15px; font-size: 0.85em; color: #999;">
+                Síguenos para ofertas exclusivas y novedades
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+        <p>© 2024 DG Perfumance — Todos los derechos reservados.</p>
+        <p style="font-size: 0.8em; margin-top: 10px;">
+            <a href="#" style="color: #888;">Política de Privacidad</a> | 
+            <a href="#" style="color: #888;">Términos y Condiciones</a> | 
+            <a href="#" style="color: #888;">Política de Devoluciones</a>
+        </p>
+    </div>
+
+</footer>
+
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>

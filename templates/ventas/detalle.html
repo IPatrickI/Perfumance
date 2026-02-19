@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block titulo %}Detalle de Compra{% endblock %}
+{% block content %}
+
+<h2 class="titulo">Detalle de Venta #{{ id_venta }}</h2>
+
+<div id="detalle" class="detalle-container">
+    <p>Cargando detalles...</p>
+</div>
+
+<a class="btn-back" href="{% url 'ventas_historial' %}">Volver al Historial</a>
+
+<script>
+fetch("/ventas/{{ id_venta }}/")
+    .then(r => r.json())
+    .then(data => {
+        let cont = document.getElementById("detalle");
+
+        if (data.error) {
+            cont.innerHTML = "<p>Error al cargar la información.</p>";
+            return;
+        }
+
+        cont.innerHTML = `
+            <table class="tabla-detalle">
+                <tr>
+                    <th>Marca</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                </tr>
+        `;
+
+        let total = 0;
+
+        data.forEach(d => {
+            total += d.subtotal;
+            cont.innerHTML += `
+                <tr>
+                    <td>${d.marca}</td>
+                    <td>${d.cantidad}</td>
+                    <td>$${d.precio_unitario.toFixed(2)}</td>
+                    <td>$${d.subtotal.toFixed(2)}</td>
+                </tr>
+            `;
+        });
+
+        cont.innerHTML += `
+            <tr class="total">
+                <td colspan="3"><strong>Total</strong></td>
+                <td><strong>$${total.toFixed(2)}</strong></td>
+            </tr>
+            </table>
+        `;
+    });
+</script>
+
+{% endblock %}

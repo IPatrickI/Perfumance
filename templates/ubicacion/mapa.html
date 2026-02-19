@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Ubicaciones - DG Perfumance{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/ubicacion.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="ubicacion-container">
+    
+    <section class="ubicacion-hero">
+        <div class="hero-content">
+            <h1>Nuestras Ubicaciones</h1>
+            <p>Visítanos en cualquiera de nuestras sucursales</p>
+        </div>
+    </section>
+
+    <div class="content-wrapper">
+        <div class="ubicacion-grid">
+            
+            <!-- Columna izquierda: Lista de sucursales -->
+            <div class="sucursales-list">
+                <h2>Sucursales</h2>
+                {% for sucursal in sucursales %}
+                <div class="sucursal-card" data-id="{{ sucursal.id }}">
+                    <h3>{{ sucursal.nombre }}</h3>
+                    <p class="direccion">📍 {{ sucursal.direccion }}</p>
+                    <p class="telefono">📞 <a href="tel:{{ sucursal.telefono }}">{{ sucursal.telefono }}</a></p>
+                    <p class="email">📧 <a href="mailto:{{ sucursal.email }}">{{ sucursal.email }}</a></p>
+                    <p class="horario">⏰ {{ sucursal.horario }}</p>
+                    <p class="dias">📅 {{ sucursal.dias }}</p>
+                    <button class="btn-ver-mapa" onclick="centrarMapa({{ sucursal.latitud }}, {{ sucursal.longitud }})">
+                        Ver en mapa
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Columna derecha: Mapa -->
+            <div class="mapa-container">
+                <div id="mapa" style="width: 100%; height: 600px;"></div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<style>
+.ubicacion-container {
+    min-height: 100vh;
+    background: #f5f5f5;
+}
+
+.ubicacion-hero {
+    background: linear-gradient(135deg, #8B4789 0%, #A85CA8 100%);
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.content-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.ubicacion-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 30px;
+}
+
+.sucursales-list {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-height: 700px;
+    overflow-y: auto;
+}
+
+.sucursales-list h2 {
+    color: #8B4789;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #8B4789;
+    padding-bottom: 10px;
+}
+
+.sucursal-card {
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 4px solid #8B4789;
+    background: #f9f9f9;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.sucursal-card:hover {
+    background: #f0f0f0;
+    box-shadow: 0 2px 8px rgba(139, 71, 137, 0.2);
+}
+
+.sucursal-card h3 {
+    color: #8B4789;
+    margin: 0 0 10px 0;
+    font-size: 1.1em;
+}
+
+.sucursal-card p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.sucursal-card a {
+    color: #8B4789;
+    text-decoration: none;
+}
+
+.sucursal-card a:hover {
+    text-decoration: underline;
+}
+
+.btn-ver-mapa {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    background: linear-gradient(135deg, #8B4789 0%, #A85CA8 100%);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: transform 0.2s;
+}
+
+.btn-ver-mapa:hover {
+    transform: scale(1.02);
+}
+
+.mapa-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .ubicacion-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .sucursales-list {
+        max-height: auto;
+    }
+    
+    #mapa {
+        height: 400px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 1.8em;
+    }
+    
+    .sucursal-card {
+        padding: 10px;
+    }
+}
+
+/* Scroll estilizado */
+.sucursales-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sucursales-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.sucursales-list::-webkit-scrollbar-thumb {
+    background: #8B4789;
+    border-radius: 10px;
+}
+
+.sucursales-list::-webkit-scrollbar-thumb:hover {
+    background: #6b3569;
+}
+</style>
+
+<!-- Script de Ubicación -->
+<script src="{% static 'js/ubicacion.js' %}"></script>
+
+<!-- Leaflet CSS y JS (OpenStreetMap) -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+      crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
+        crossorigin=""></script>
+
+<!-- Script de sucursales para el mapa -->
+<script id="sucursales-data" type="application/json">
+{{ sucursales_json|safe }}
+</script>
+
+{% endblock %}

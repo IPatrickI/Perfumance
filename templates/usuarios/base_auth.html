@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block titulo %}Cuenta{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'usuarios/auth.css' %}">
+</head>
+<body>
+
+<div class="auth-container">
+    <div class="auth-box">
+
+        <h1 class="titulo">{% block encabezado %}{% endblock %}</h1>
+
+        {% if messages %}
+            <div class="mensajes">
+                {% for m in messages %}
+                    <div class="msg {{ m.tags }}">{{ m }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block titulo %}Realizar Pago{% endblock %}
+{% block content %}
+
+<h2 class="titulo">Pago</h2>
+
+<div class="pago-box">
+    <h3>Completa tu pago</h3>
+
+    <label>Método de pago:</label>
+    <select id="metodo">
+        <option value="tarjeta">Tarjeta Bancaria</option>
+        <option value="paypal">PayPal</option>
+        <option value="oxxo">OXXO</option>
+    </select>
+
+    <label>Monto a pagar:</label>
+    <input type="number" id="monto" placeholder="Cantidad" />
+
+    <button class="btn" onclick="pagar()">Pagar</button>
+
+    <div id="msg"></div>
+</div>
+
+<script>
+function pagar() {
+    let metodo = document.getElementById("metodo").value;
+    let monto  = document.getElementById("monto").value;
+    
+    fetch("/ventas/pago/", {
+        method: "POST",
+        headers: {"X-CSRFToken": "{{ csrf_token }}"},
+        body: new URLSearchParams({
+            método: metodo,
+            total: monto
+        })
+    })
+    .then(r => r.text())
+    .then(t => {
+        document.getElementById("msg").innerHTML = t;
+    });
+}
+</script>
+
+{% endblock %}

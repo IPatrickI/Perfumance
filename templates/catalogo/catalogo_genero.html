@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'catalogo/catalogo.css' %}">
+<h1>Perfumes para {{ genero|title }}</h1>
+
+<div id="lista-perfumes" class="grid"></div>
+
+<script>
+    const generoSeleccionado = "{{ genero }}";
+</script>
+<script src="{% static 'catalogo/catalogo_genero.js' %}"></script>
+{% endblock %}

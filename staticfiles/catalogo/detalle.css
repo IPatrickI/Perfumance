@@ -1,0 +1,261 @@
+/* Detalle del Producto */
+
+.detalle-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.detalle-contenido {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Imagen del producto */
+.detalle-imagen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imagen-grande {
+    max-width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
+/* Información */
+.detalle-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 25px;
+}
+
+.detalle-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.genero-badge {
+    background: #8B4789;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.detalle-marca {
+    color: #8B4789;
+    font-size: 2.2em;
+    margin: 0;
+    font-weight: bold;
+}
+
+/* Especificaciones */
+.detalle-specs {
+    background: #f5f5f5;
+    padding: 25px;
+    border-radius: 8px;
+    border-left: 4px solid #8B4789;
+}
+
+.spec {
+    padding: 10px 0;
+    color: #333;
+    font-size: 1em;
+    border-bottom: 1px solid #ddd;
+}
+
+.spec:last-child {
+    border-bottom: none;
+}
+
+.spec strong {
+    color: #8B4789;
+    font-weight: 600;
+}
+
+/* Stock */
+.detalle-stock {
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-size: 1.1em;
+}
+
+.detalle-stock .stock-disponible {
+    background: #d4edda;
+    color: #155724;
+    display: block;
+    padding: 15px 20px;
+    border-radius: 8px;
+}
+
+.detalle-stock .stock-agotado {
+    background: #f8d7da;
+    color: #721c24;
+    display: block;
+    padding: 15px 20px;
+    border-radius: 8px;
+}
+
+/* Precio */
+.detalle-precio {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #8B4789 0%, #A85CA8 100%);
+    color: white;
+    border-radius: 8px;
+}
+
+.precio-label {
+    font-size: 1.1em;
+    margin: 0;
+    opacity: 0.9;
+}
+
+.precio-valor {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin: 10px 0 0 0;
+}
+
+/* Acciones */
+.detalle-acciones {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.cantidad-selector {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.cantidad-selector label {
+    font-weight: bold;
+    color: #333;
+    font-size: 1.1em;
+}
+
+.cantidad-selector input {
+    width: 80px;
+    padding: 10px;
+    border: 2px solid #8B4789;
+    border-radius: 6px;
+    font-size: 1em;
+    text-align: center;
+}
+
+.cantidad-selector input:focus {
+    outline: none;
+    border-color: #A85CA8;
+    box-shadow: 0 0 5px rgba(139, 71, 137, 0.3);
+}
+
+/* Botones */
+.btn-agregar-carrito {
+    background: linear-gradient(135deg, #8B4789 0%, #A85CA8 100%);
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-agregar-carrito:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 15px rgba(139, 71, 137, 0.3);
+}
+
+.btn-agotado {
+    background: #ccc;
+    color: #666;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: not-allowed;
+}
+
+.btn-volver {
+    background: #f5f5f5;
+    color: #8B4789;
+    padding: 12px 20px;
+    border: 2px solid #8B4789;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-volver:hover {
+    background: #8B4789;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .detalle-contenido {
+        grid-template-columns: 1fr;
+        padding: 25px;
+        gap: 30px;
+    }
+
+    .detalle-marca {
+        font-size: 1.8em;
+    }
+
+    .imagen-grande {
+        max-height: 400px;
+    }
+
+    .cantidad-selector {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cantidad-selector input {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .detalle-container {
+        padding: 20px 10px;
+    }
+
+    .detalle-contenido {
+        padding: 20px;
+    }
+
+    .detalle-marca {
+        font-size: 1.5em;
+    }
+
+    .precio-valor {
+        font-size: 2em;
+    }
+
+    .btn-agregar-carrito,
+    .btn-volver {
+        padding: 12px 15px;
+        font-size: 1em;
+    }
+}

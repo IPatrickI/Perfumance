@@ -1,0 +1,41 @@
+{% extends "adminpanel/base_admin.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h1 class="form-title">✏️ Editar Usuario #{{ usuario.id_usuario }}</h1>
+    <p class="form-subtitle">Modifica la información del usuario</p>
+
+    <div class="card">
+        <form action="{% url 'adminpanel:editar_usuario_post' usuario.id_usuario %}" method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label class="required-field">Nombre de Usuario</label>
+                <input type="text" name="username" value="{{ usuario.username }}" placeholder="Ej: admin01" required>
+                <p class="form-help">Identificador único del usuario</p>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">Correo Electrónico</label>
+                <input type="email" name="email" value="{{ usuario.email }}" placeholder="usuario@example.com" required>
+                <p class="form-help">Email de contacto</p>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">Rol del Usuario</label>
+                <select name="id_rol" required>
+                    <option value="1" {% if usuario.id_rol == 1 %}selected{% endif %}>🔑 Administrador</option>
+                    <option value="2" {% if usuario.id_rol == 2 %}selected{% endif %}>🛍️ Cliente</option>
+                </select>
+                <p class="form-help">Permisos en el sistema</p>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn-primary" type="submit">✓ Actualizar Usuario</button>
+                <a href="{% url 'adminpanel:usuarios' %}" class="btn-secondary">✕ Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

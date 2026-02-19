@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>📦 Historial de compras</h1>
+
+<div id="historial"></div>
+
+<script>
+fetch("/ventas/historial/")
+    .then(r=>r.json())
+    .then(data=>{
+        let box = document.getElementById("historial");
+        box.innerHTML = data.map(v=>`
+            <div class='card'>
+                <strong>ID Venta:</strong> ${v.id_venta}<br>
+                <strong>Total:</strong> $${v.monto_total}<br>
+                <a href="/carrito/venta/${v.id_venta}/">Ver detalles</a>
+            </div>
+        `).join("");
+    });
+</script>
+{% endblock %}

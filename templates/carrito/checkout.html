@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 40px auto; padding: 20px;">
+    <h1>💳 Checkout</h1>
+    
+    <!-- Resumen del carrito -->
+    <div id="resumen-carrito" style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+        <h2 style="color: #8B4789; margin-bottom: 15px;">Resumen de tu compra</h2>
+        <div id="items-checkout"></div>
+        <hr style="margin: 20px 0;">
+        <p style="font-size: 1.3em; color: #8B4789; font-weight: bold;">
+            Total a pagar: <span id="total-checkout">$0.00</span>
+        </p>
+    </div>
+    
+    <!-- Opciones de pago -->
+    <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #ddd;">
+        <h2 style="color: #333; margin-bottom: 20px;">Método de pago</h2>
+        
+        <!-- Botón de Mercado Pago -->
+        <button id="btn-mercado-pago" 
+                onclick="irAMercadoPago()" 
+                style="width: 100%; padding: 15px; background: #009EE3; color: white; border: none; border-radius: 6px; font-size: 1.1em; font-weight: bold; cursor: pointer; margin-bottom: 15px;">
+            💳 Pagar con Mercado Pago
+        </button>
+        
+        <p style="text-align: center; color: #666; font-size: 0.9em;">
+            Plataforma segura de pago online en Latinoamérica
+        </p>
+    </div>
+</div>
+
+<script>
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Cargar carrito al iniciar
+async function cargarResumenCarrito() {
+    try {
+        const response = await fetch('/carrito/api/ver/');
+        const data = await response.json();
+        
+        if (!data.carrito || !data.carrito.length) {
+            document.getElementById('resumen-carrito').innerHTML = '<p style="color: #999;">El carrito está vacío</p>';
+            document.getElementById('btn-mercado-pago').disabled = true;
+            return;
+        }
+        
+        // Mostrar items
+        let html = '';
+        data.carrito.forEach(item => {
+            html += `
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <div>
+                        <p style="margin: 0; font-weight: bold;">${item.marca}</p>
+                        <p style="margin: 5px 0 0 0; color: #666; font-size: 0.9em;">Cantidad: ${item.cantidad}</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="margin: 0; color: #8B4789; font-weight: bold;">$${parseFloat(item.subtotal).toFixed(2)}</p>
+                    </div>
+                </div>
+            `;
+        });
+        
+        document.getElementById('items-checkout').innerHTML = html;
+        document.getElementById('total-checkout').textContent = '$' + parseFloat(data.total).toFixed(2);
+    } catch (error) {
+        console.error('Error cargando carrito:', error);
+        document.getElementById('resumen-carrito').innerHTML = '<p style="color: red;">Error al cargar el carrito</p>';
+    }
+}
+
+async function irAMercadoPago() {
+    try {
+        document.getElementById('btn-mercado-pago').disabled = true;
+        document.getElementById('btn-mercado-pago').textContent = 'Procesando...';
+        
+        // Crear preferencia en Mercado Pago
+        const response = await fetch('/carrito/api/mercado-pago/crear/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (data.error) {
+            console.error('Error: ' + data.error);
+            document.getElementById('btn-mercado-pago').disabled = false;
+            document.getElementById('btn-mercado-pago').textContent = '💳 Pagar con Mercado Pago';
+            return;
+        }
+        
+        // Redirigir a Mercado Pago
+        window.location.href = data.init_point;
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('btn-mercado-pago').disabled = false;
+        document.getElementById('btn-mercado-pago').textContent = '💳 Pagar con Mercado Pago';
+    }
+}
+
+// Cargar resumen al abrir la página
+document.addEventListener('DOMContentLoaded', cargarResumenCarrito);
+</script>
+{% endblock %}

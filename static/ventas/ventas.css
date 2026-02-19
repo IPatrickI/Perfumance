@@ -1,0 +1,66 @@
+.titulo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.ventas-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.venta-card {
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.2);
+}
+
+.venta-card .btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px;
+    background: #6a0dad;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.detalle-container {
+    margin: 20px auto;
+    max-width: 700px;
+}
+
+.tabla-detalle {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla-detalle th, 
+.tabla-detalle td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.tabla-detalle tr.total {
+    background: #eaeaea;
+}
+
+.pago-box {
+    margin: auto;
+    max-width: 400px;
+    padding: 20px;
+    background: #fafafa;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.2);
+}
+
+.btn-back {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    background: #333;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+}

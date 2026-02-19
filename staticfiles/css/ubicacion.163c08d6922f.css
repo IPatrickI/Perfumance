@@ -1,0 +1,185 @@
+/* Ubicación/Mapa Styles */
+
+.ubicacion-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+    padding: 40px 20px;
+}
+
+.ubicacion-header {
+    text-align: center;
+    margin-bottom: 40px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ubicacion-header h1 {
+    color: #8B4789;
+    font-size: 2.5em;
+    margin-bottom: 15px;
+}
+
+.ubicacion-header p {
+    color: #666;
+    font-size: 1.1em;
+}
+
+.ubicacion-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+}
+
+/* Mapa */
+#mapa {
+    height: 600px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Búsqueda */
+.busqueda-container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.busqueda-container h3 {
+    color: #8B4789;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+#buscar-ubicacion {
+    width: 100%;
+    padding: 10px 15px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+#buscar-ubicacion:focus {
+    outline: none;
+    border-color: #8B4789;
+}
+
+/* Lista de sucursales */
+.sucursales-list {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    max-height: 600px;
+}
+
+.sucursal-item {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sucursal-item:hover {
+    background-color: #f5f5f5;
+    border-left: 4px solid #8B4789;
+    padding-left: 11px;
+}
+
+.sucursal-item.active {
+    background: linear-gradient(135deg, #8B4789 0%, #A85CA8 100%);
+    color: white;
+}
+
+.sucursal-nombre {
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+}
+
+.sucursal-direccion {
+    font-size: 0.95em;
+    opacity: 0.8;
+    margin-bottom: 5px;
+}
+
+.sucursal-telefono {
+    font-size: 0.9em;
+    opacity: 0.7;
+}
+
+.sucursal-item.active .sucursal-direccion,
+.sucursal-item.active .sucursal-telefono {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Info popup */
+.sucursal-info {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sucursal-info h4 {
+    color: #8B4789;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.sucursal-info p {
+    margin: 5px 0;
+    font-size: 0.95em;
+    color: #666;
+}
+
+.sucursal-info i {
+    color: #8B4789;
+    margin-right: 10px;
+    width: 20px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .ubicacion-content {
+        grid-template-columns: 1fr;
+    }
+    
+    #mapa {
+        height: 400px;
+    }
+    
+    .sucursales-list {
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .ubicacion-header h1 {
+        font-size: 1.8em;
+    }
+    
+    #mapa {
+        height: 350px;
+    }
+    
+    .sucursales-list {
+        max-height: 250px;
+    }
+}
+
+/* Google Maps custom styles */
+.gm-style-iw {
+    background: white !important;
+    border-radius: 8px !important;
+}
+
+.gm-style-iw-d {
+    overflow: hidden !important;
+}

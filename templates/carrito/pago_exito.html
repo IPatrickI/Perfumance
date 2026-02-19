@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 60px auto; text-align: center; padding: 40px;">
+    <div style="font-size: 80px; margin-bottom: 20px;">✅</div>
+    
+    <h1 style="color: #4CAF50; margin-bottom: 10px;">¡Pago Exitoso!</h1>
+    <p style="color: #666; font-size: 1.1em; margin-bottom: 30px;">Tu compra ha sido procesada correctamente</p>
+    
+    <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+        <p style="margin: 10px 0;"><strong>Número de venta:</strong> #{{ id_venta }}</p>
+        <p style="margin: 10px 0;"><strong>Número de pago:</strong> #{{ id_pago }}</p>
+        <p style="margin: 10px 0;"><strong>Monto total:</strong> <span style="color: #8B4789; font-weight: bold;">${{ total }}</span></p>
+    </div>
+    
+    <p style="color: #666; margin-bottom: 20px;">
+        📧 Te enviaremos un correo de confirmación en los próximos minutos
+    </p>
+    
+    <div style="display: flex; gap: 10px; justify-content: center;">
+        <a href="/carrito/historial/" style="padding: 12px 30px; background: #8B4789; color: white; border-radius: 6px; text-decoration: none; font-weight: bold;">
+            Ver mis compras
+        </a>
+        <a href="/" style="padding: 12px 30px; background: #f0f0f0; color: #333; border-radius: 6px; text-decoration: none; font-weight: bold;">
+            Volver al inicio
+        </a>
+    </div>
+</div>
+{% endblock %}

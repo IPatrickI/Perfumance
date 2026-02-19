@@ -1,0 +1,34 @@
+{% extends "adminpanel/base_admin.html" %}
+
+{% block content %}
+<h1>Dashboard</h1>
+
+<div class="card">
+    <h2>Estadísticas</h2>
+    <p><strong>Total Productos:</strong> {{ total_prod }}</p>
+    <p><strong>Total Pedidos:</strong> {{ total_ped }}</p>
+    <p><strong>Total Usuarios:</strong> {{ total_usr }}</p>
+</div>
+
+<div class="card">
+    <h2>Actividad Reciente</h2>
+
+    <table class="table">
+        <tr>
+            <th>Descripción</th>
+            <th>Usuario</th>
+            <th>Rol</th>
+            <th>Fecha</th>
+        </tr>
+
+        {% for a in actividades %}
+        <tr>
+            <td>{{ a.descripcion }}</td>
+            <td>{{ a.username }}</td>
+            <td>{{ a.rol }}</td>
+            <td>{{ a.fecha }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

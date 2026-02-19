@@ -1,0 +1,66 @@
+{% extends "adminpanel/base_admin.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h1 class="form-title">➕ Crear Nuevo Perfume</h1>
+    <p class="form-subtitle">Completa la información del producto</p>
+
+    <div class="card">
+        <form action="{% url 'adminpanel:crear_perfume_post' %}" method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label class="required-field">Marca</label>
+                <input type="text" name="marca" placeholder="Ej: Dior, Chanel, Calvin Klein" required>
+                <p class="form-help">Nombre comercial del perfume</p>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">Presentación</label>
+                <input type="text" name="presentacion" placeholder="Ej: Eau de Parfum, Eau de Toilette" required>
+                <p class="form-help">Tipo de fragancia</p>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">Talla</label>
+                <input type="text" name="talla" placeholder="Ej: 100ml, 50ml, 30ml" required>
+                <p class="form-help">Volumen del producto</p>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">Stock</label>
+                <input type="number" name="stock" placeholder="0" min="0" required>
+                <p class="form-help">Unidades disponibles</p>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">Precio</label>
+                <input type="number" name="precio" placeholder="0.00" step="0.01" min="0" required>
+                <p class="form-help">Precio en pesos mexicanos (MXN)</p>
+            </div>
+
+            <div class="form-group">
+                <label class="required-field">Género</label>
+                <select name="id_genero" required>
+                    <option value="">-- Selecciona un género --</option>
+                    {% for g in generos %}
+                    <option value="{{ g.id }}">{{ g.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Fecha de Caducidad</label>
+                <input type="date" name="fecha_caducidad">
+                <p class="form-help">Opcional - Fecha de vencimiento del producto</p>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn-primary" type="submit">✓ Crear Perfume</button>
+                <a href="{% url 'adminpanel:productos' %}" class="btn-secondary">✕ Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "adminpanel/base_admin.html" %}
+
+{% block content %}
+<h1>Usuarios</h1>
+
+<a href="{% url 'adminpanel:crear_usuario' %}" class="btn">➕ Nuevo Usuario</a>
+
+<div class="card">
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Usuario</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+    </tr>
+
+    {% for u in usuarios %}
+    <tr>
+        <td>{{ u.id_usuario }}</td>
+        <td>{{ u.username }}</td>
+        <td>{{ u.email }}</td>
+        <td>{{ u.rol }}</td>
+        <td>
+            <a class="btn yellow" href="{% url 'adminpanel:editar_usuario' u.id_usuario %}">Editar</a>
+            <a class="btn red" href="{% url 'adminpanel:eliminar_usuario' u.id_usuario %}">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endblock %}

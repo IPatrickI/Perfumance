@@ -1,0 +1,289 @@
+{% extends "adminpanel/base_admin.html" %}
+
+{% block title %}Detalle del Pedido #{{ venta.id_venta }}{% endblock %}
+
+{% block content %}
+<div class="admin-content">
+    <div class="content-header">
+        <a href="{% url 'adminpanel:pedidos' %}" class="btn-back">&larr; Volver a Pedidos</a>
+        <h1>📋 Pedido #{{ venta.id_venta }}</h1>
+    </div>
+
+    <div class="detalle-container">
+        <!-- Información general del pedido -->
+        <div class="card">
+            <h2>Información del Pedido</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>ID Venta:</label>
+                    <span>#{{ venta.id_venta }}</span>
+                </div>
+                <div class="info-item">
+                    <label>Fecha:</label>
+                    <span>{{ venta.fecha_venta|date:"d/m/Y H:i" }}</span>
+                </div>
+                <div class="info-item">
+                    <label>Monto Total:</label>
+                    <span class="monto">${{ venta.monto_total|floatformat:2 }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información del cliente -->
+        {% if cliente %}
+        <div class="card">
+            <h2>Información del Cliente</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>Nombre:</label>
+                    <span>{{ cliente.nombres }} {{ cliente.apellidos }}</span>
+                </div>
+                <div class="info-item">
+                    <label>Email:</label>
+                    <span><a href="mailto:{{ cliente.email }}">{{ cliente.email }}</a></span>
+                </div>
+                <div class="info-item">
+                    <label>Teléfono:</label>
+                    <span>{{ cliente.telefono }}</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Detalles de productos -->
+        <div class="card">
+            <h2>Productos Comprados</h2>
+            {% if detalles %}
+                <table class="detalle-table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unitario</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for detalle in detalles %}
+                        <tr>
+                            <td>{{ detalle.producto }}</td>
+                            <td>{{ detalle.cantidad }}</td>
+                            <td>${{ detalle.precio_unitario|floatformat:2 }}</td>
+                            <td class="subtotal">${{ detalle.subtotal|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No hay productos en este pedido.</p>
+            {% endif %}
+        </div>
+
+        <!-- Información de pagos -->
+        <div class="card">
+            <h2>Información de Pago</h2>
+            {% if pagos %}
+                <table class="pagos-table">
+                    <thead>
+                        <tr>
+                            <th>ID Pago</th>
+                            <th>Método</th>
+                            <th>Estado</th>
+                            <th>Monto</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pago in pagos %}
+                        <tr>
+                            <td>#{{ pago.id_pago }}</td>
+                            <td>{{ pago.metodo }}</td>
+                            <td>
+                                {% if pago.estado == "Completado" %}
+                                    <span class="status-badge status-completado">✓ {{ pago.estado }}</span>
+                                {% elif pago.estado == "Pendiente" %}
+                                    <span class="status-badge status-pendiente">⏳ {{ pago.estado }}</span>
+                                {% else %}
+                                    <span class="status-badge status-rechazado">✗ {{ pago.estado }}</span>
+                                {% endif %}
+                            </td>
+                            <td>${{ pago.total|floatformat:2 }}</td>
+                            <td>{{ pago.fecha|date:"d/m/Y H:i" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No hay registros de pago para este pedido.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .admin-content {
+        padding: 20px;
+    }
+
+    .content-header {
+        margin-bottom: 30px;
+        position: relative;
+    }
+
+    .btn-back {
+        display: inline-block;
+        margin-bottom: 15px;
+        color: #2196f3;
+        text-decoration: none;
+        font-size: 14px;
+        transition: color 0.3s ease;
+    }
+
+    .btn-back:hover {
+        color: #1976d2;
+    }
+
+    .content-header h1 {
+        font-size: 28px;
+        color: #333;
+        margin: 0;
+    }
+
+    .detalle-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .card h2 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        color: #333;
+        font-size: 18px;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+    }
+
+    .info-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .info-item label {
+        font-weight: 600;
+        color: #666;
+        font-size: 12px;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+
+    .info-item span {
+        color: #333;
+        font-size: 14px;
+    }
+
+    .info-item a {
+        color: #2196f3;
+        text-decoration: none;
+    }
+
+    .info-item a:hover {
+        text-decoration: underline;
+    }
+
+    .monto {
+        font-size: 18px;
+        font-weight: 600;
+        color: #2e7d32;
+    }
+
+    .detalle-table,
+    .pagos-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .detalle-table thead,
+    .pagos-table thead {
+        background-color: #f5f5f5;
+        border-bottom: 2px solid #ddd;
+    }
+
+    .detalle-table th,
+    .pagos-table th {
+        padding: 12px;
+        text-align: left;
+        font-weight: 600;
+        color: #333;
+        font-size: 13px;
+    }
+
+    .detalle-table td,
+    .pagos-table td {
+        padding: 10px 12px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .detalle-table tbody tr:hover,
+    .pagos-table tbody tr:hover {
+        background-color: #f9f9f9;
+    }
+
+    .subtotal {
+        font-weight: 600;
+        color: #2e7d32;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .status-completado {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .status-pendiente {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+
+    .status-rechazado {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    @media (max-width: 768px) {
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .detalle-table,
+        .pagos-table {
+            font-size: 12px;
+        }
+
+        .detalle-table th,
+        .pagos-table th,
+        .detalle-table td,
+        .pagos-table td {
+            padding: 8px;
+        }
+    }
+</style>
+{% endblock %}

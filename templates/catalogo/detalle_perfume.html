@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ perfume.marca }} - DG Perfumance{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'catalogo/detalle.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- Notificación de éxito -->
+<div id="notificacion-carrito" style="display: none; position: fixed; top: 80px; right: 20px; background: #4CAF50; color: white; padding: 15px 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1000; font-weight: 500;">
+    ✓ Agregado exitosamente al carrito
+</div>
+
+<div class="detalle-container">
+    <div class="detalle-contenido">
+        <!-- Imagen -->
+        <div class="detalle-imagen">
+            <img src="{{ perfume.imagen }}" alt="{{ perfume.marca }}" class="imagen-grande" onerror="this.src='/static/img/perfume_default.jpg'">
+        </div>
+
+        <!-- Información del producto -->
+        <div class="detalle-info">
+            <div class="detalle-header">
+                <span class="genero-badge">{{ perfume.genero }}</span>
+                <h1 class="detalle-marca">{{ perfume.marca }}</h1>
+            </div>
+
+            <div class="detalle-specs">
+                <div class="spec">
+                    <strong>Presentación:</strong> {{ perfume.presentacion }}
+                </div>
+                <div class="spec">
+                    <strong>Talla:</strong> {{ perfume.talla }}
+                </div>
+                <div class="spec">
+                    <strong>Fecha Caducidad:</strong> 
+                    {% if perfume.caducidad %}
+                        {{ perfume.caducidad|date:"d/m/Y" }}
+                    {% else %}
+                        No especificada
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Stock -->
+            <div class="detalle-stock">
+                {% if perfume.stock > 0 %}
+                    <span class="stock-disponible">
+                        <strong>Stock disponible:</strong> {{ perfume.stock }} unidades
+                    </span>
+                {% else %}
+                    <span class="stock-agotado">
+                        <strong>Producto agotado</strong>
+                    </span>
+                {% endif %}
+            </div>
+
+            <!-- Precio -->
+            <div class="detalle-precio">
+                <p class="precio-label">Precio por unidad:</p>
+                <p class="precio-valor">${{ perfume.precio }}</p>
+            </div>
+
+            <!-- Acciones -->
+            <div class="detalle-acciones">
+                {% if perfume.stock > 0 %}
+                    <div class="cantidad-selector">
+                        <label for="cantidad">Cantidad:</label>
+                        <input type="number" id="cantidad" name="cantidad" min="1" max="{{ perfume.stock }}" value="1">
+                    </div>
+                    <button class="btn-agregar-carrito" onclick="agregarAlCarrito({{ perfume.id }})">
+                        🛒 Agregar al Carrito
+                    </button>
+                {% else %}
+                    <button class="btn-agotado" disabled>Producto Agotado</button>
+                {% endif %}
+            </div>
+
+            <!-- Volver al catálogo -->
+            <a href="{% url 'catalogo:catalogo_page' %}" class="btn-volver">← Volver al Catálogo</a>
+        </div>
+    </div>
+</div>
+
+<script>
+async function agregarAlCarrito(idPerfume) {
+    const cantidad = parseInt(document.getElementById('cantidad').value) || 1;
+    
+    if (cantidad <= 0) {
+        mostrarNotificacion('Por favor ingresa una cantidad válida', false);
+        return;
+    }
+
+    try {
+        const response = await fetch('/carrito/api/agregar/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({
+                id_perfume: idPerfume,
+                cantidad: cantidad
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            mostrarNotificacion('Agregado exitosamente al carrito', true);
+            // Actualizar contador del carrito si existe
+            actualizarContadorCarrito();
+        } else {
+            mostrarNotificacion(`Error: ${data.error || 'No se pudo agregar al carrito'}`, false);
+        }
+    } catch (error) {
+        mostrarNotificacion('Error de conexión', false);
+        console.error('Error:', error);
+    }
+}
+
+function mostrarNotificacion(mensaje, exito) {
+    const notificacion = document.getElementById('notificacion-carrito');
+    notificacion.textContent = exito ? '✓ ' + mensaje : '✗ ' + mensaje;
+    notificacion.style.background = exito ? '#4CAF50' : '#f44336';
+    notificacion.style.display = 'block';
+    
+    setTimeout(() => {
+        notificacion.style.display = 'none';
+    }, 3000);
+}
+
+// Función auxiliar para obtener el token CSRF
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Función para actualizar el contador del carrito
+function actualizarContadorCarrito() {
+    fetch('/carrito/api/ver/')
+        .then(r => r.json())
+        .then(data => {
+            const contador = document.getElementById('carrito-contador');
+            if (contador) {
+                contador.textContent = data.carrito.length;
+            }
+        })
+        .catch(e => console.log('No se pudo actualizar contador'));
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Quiénes Somos - DG Perfumance{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/quienes_somos.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="quienes-somos-container">
+    
+    <!-- Hero Section -->
+    <section class="quienes-hero">
+        <div class="hero-content">
+            <h1>{{ info.nombre_empresa }}</h1>
+            <p class="hero-subtitle">Más de {{ info.anios_experiencia }} años en tu confianza</p>
+        </div>
+    </section>
+
+    <!-- Misión y Visión -->
+    <section class="mision-vision">
+        <div class="content-wrapper">
+            <div class="card">
+                <div class="card-icon">🎯</div>
+                <h2>Nuestra Misión</h2>
+                <p>{{ info.mision }}</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🌟</div>
+                <h2>Nuestra Visión</h2>
+                <p>{{ info.vision }}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Historia -->
+    <section class="historia">
+        <div class="content-wrapper">
+            <h2>Nuestra Historia</h2>
+            <p>{{ info.historia }}</p>
+        </div>
+    </section>
+
+    <!-- Valores -->
+    <section class="valores">
+        <div class="content-wrapper">
+            <h2>Nuestros Valores</h2>
+            <div class="valores-grid">
+                {% for valor in info.valores %}
+                <div class="valor-card">
+                    <h3>{{ valor.titulo }}</h3>
+                    <p>{{ valor.descripcion }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Estadísticas -->
+    <section class="estadisticas">
+        <div class="content-wrapper">
+            <h2>En Números</h2>
+            <div class="stats-grid">
+                <div class="stat">
+                    <h3>{{ info.anios_experiencia }}+</h3>
+                    <p>Años de experiencia</p>
+                </div>
+                <div class="stat">
+                    <h3>{{ info.clientes_satisfechos }}+</h3>
+                    <p>Clientes satisfechos</p>
+                </div>
+                <div class="stat">
+                    <h3>{{ info.marcas_disponibles }}+</h3>
+                    <p>Marcas disponibles</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="content-wrapper">
+            <h2>¿Listo para descubrir tu fragancia?</h2>
+            <p>Explora nuestro amplio catálogo y encuentra el perfume perfecto para ti</p>
+            <a href="{% url 'catalogo:catalogo_page' %}" class="cta-button">Ver Catálogo</a>
+        </div>
+    </section>
+
+</div>
+
+{% endblock %}
