@@ -238,3 +238,8 @@ MERCADO_PAGO_SUCCESS_URL = f'{BASE_URL}/carrito/mercado-pago/success/'
 MERCADO_PAGO_FAILURE_URL = f'{BASE_URL}/carrito/mercado-pago/failure/'
 MERCADO_PAGO_PENDING_URL = f'{BASE_URL}/carrito/mercado-pago/pending/'
 
+# ---------------------------------------------------------
+# Configuración de Redirección de Autenticación
+# ---------------------------------------------------------
+LOGIN_REDIRECT_URL = 'home'   # A dónde va el usuario después de iniciar sesión
+LOGOUT_REDIRECT_URL = 'home'  # A dónde va el usuario después de cerrar sesión
