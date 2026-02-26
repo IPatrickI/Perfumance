@@ -14,19 +14,19 @@ from pathlib import Path
 import os
 import dj_database_url
 
-# Cargar variables de entorno desde .env (solo si existe .env)
+
 if os.path.exists(os.path.join(os.path.dirname(__file__), '..', '.env')):
     from dotenv import load_dotenv
     load_dotenv()
 else:
-    # En Railway, las variables vienen del sistema, no necesitamos load_dotenv
+    
     try:
         from dotenv import load_dotenv
         load_dotenv()
     except:
         pass
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -37,7 +37,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-insecure-secret-key")
 
 
-# SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 default_hosts = ['localhost', '127.0.0.1', '0.0.0.0']
@@ -58,7 +58,7 @@ if DEBUG:
 ALLOWED_HOSTS = list(dict.fromkeys(hosts))
 
 
-# Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -109,8 +109,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'perfumance.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+
 
 DATABASES = {
     'default': {
@@ -123,7 +122,7 @@ DATABASES = {
     }
 }
 
-# Preferir DATABASE_URL si está presente (Railway/Heroku y otros proveedores la exponen).
+
 database_url = os.getenv('DATABASE_URL')
 if database_url:
     DATABASES['default'] = dj_database_url.config(
@@ -133,7 +132,7 @@ if database_url:
         ssl_require=not DEBUG
     )
 
-# Permitir usar SQLite si se define USE_SQLITE=True (útil para desarrollo rápido)
+
 if os.getenv('USE_SQLITE', 'False') == 'True' and not database_url:
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -223,7 +222,7 @@ CONTACT_ADDRESS = 'Av Telecomunicaciones, Chinam Pac de Juárez, Iztapalapa, 092
 MERCADO_PAGO_ACCESS_TOKEN = os.getenv('MERCADO_PAGO_ACCESS_TOKEN', '')
 MERCADO_PAGO_PUBLIC_KEY = os.getenv('MERCADO_PAGO_PUBLIC_KEY', '')
 
-# Email Configuration
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
 EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
@@ -232,14 +231,12 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER or 'noreply@perfumance.com')
 
-# URLs de retorno de Mercado Pago
+
 BASE_URL = os.getenv('BASE_URL', 'http://localhost:8000')
 MERCADO_PAGO_SUCCESS_URL = f'{BASE_URL}/carrito/mercado-pago/success/'
 MERCADO_PAGO_FAILURE_URL = f'{BASE_URL}/carrito/mercado-pago/failure/'
 MERCADO_PAGO_PENDING_URL = f'{BASE_URL}/carrito/mercado-pago/pending/'
 
-# ---------------------------------------------------------
-# Configuración de Redirección de Autenticación
-# ---------------------------------------------------------
-LOGIN_REDIRECT_URL = 'home'   # A dónde va el usuario después de iniciar sesión
-LOGOUT_REDIRECT_URL = 'home'  # A dónde va el usuario después de cerrar sesión
+
+LOGIN_REDIRECT_URL = 'home'   
+LOGOUT_REDIRECT_URL = 'home' 
